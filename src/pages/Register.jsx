@@ -11,8 +11,6 @@ function Login() {
   const [error, setError] = useState("");
   const [disableButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(false);
-  console.log("disablee", disableButton, password, confirm_password);
-
 
   const history = useHistory();
 
@@ -31,8 +29,6 @@ function Login() {
     setLoading(true);
     const response = await api.createUser({ name, email, password, confirm_password });
     setLoading(false);
-
-    console.log("responseeeeeeeeeee", response.status);
 
     if (response.status === 201) {
      return redirect("/");
