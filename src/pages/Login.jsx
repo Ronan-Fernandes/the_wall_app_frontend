@@ -27,7 +27,7 @@ function Login() {
 
     if (response.status === 200) {
       return setUserInfo({
-        user: { ...response },
+        user: { ...response.data },
         authenticated: true,
       });
     }
@@ -45,6 +45,7 @@ function Login() {
 
   useEffect(() => {
     if (userInfo.authenticated) {
+      localStorage.setItem("user",  JSON.stringify({ ...userInfo.user }));
       redirect("/wall", { ...userInfo });
     }
   }, [userInfo]);
@@ -79,7 +80,7 @@ function Login() {
       <button type="button" onClick={() => redirect("/register")}>
         Register
       </button>
-      <button type="button" onClick={() => redirect("/wall")}>
+      <button type="button" onClick={() => redirect("/wall", { ...userInfo })}>
         Enter as a guest
       </button>
     </div>
