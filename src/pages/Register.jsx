@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../services/api";
 
-function Login() {
+function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirm_password] = useState("");
-  // const [userInfo, setUserInfo] = useState({ authenticated: false, user: {} });
   const [error, setError] = useState("");
   const [disableButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -89,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
