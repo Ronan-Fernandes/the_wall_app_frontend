@@ -32,7 +32,21 @@ const getPosts = async () => {
   }
 };
 
+const createUser = async (userData) => {
+  try {
+    const { data, status } = await api.post("/user/register", { ...userData });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
 export default {
   getPosts,
-  login
+  login,
+  createUser
 };

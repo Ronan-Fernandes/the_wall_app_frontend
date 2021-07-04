@@ -10,6 +10,10 @@ function Login() {
   const [disableButton, setDisableButton] = useState(true);
 
   const history = useHistory();
+  
+  function redirect (pathname, state) {
+    history.push({ pathname, state });
+  }
 
   function validateForm () {
     // eslint-disable-next-line no-useless-escape
@@ -33,10 +37,6 @@ function Login() {
     }
 
     return setError(response.data.error);
-  }
-
-  function redirect (pathname, state) {
-    history.push({ pathname, state });
   }
 
   useEffect(() => {
