@@ -58,9 +58,37 @@ const createPost = async (postData, token) => {
   }
 };
 
+const editPost = async (postData, token, id) => {
+  try {
+    const { data, status } = await api.put(`/post/${id}`, { ...postData }, { headers: { "Authorization": token } });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
+const deletePost = async (id, token) => {
+  try {
+    const { data, status } = await api.delete(`/post/${id}`, { headers: { "Authorization": token } });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
 export default {
   login,
   createUser,
   getPosts,
-  createPost
+  createPost,
+  editPost,
+  deletePost
 };

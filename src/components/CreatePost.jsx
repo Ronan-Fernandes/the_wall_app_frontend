@@ -7,11 +7,18 @@ function CreatePost({ user, getPosts }) {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
 
+  function clearLocalState() {
+    setTitle("");
+    setContent("");
+    setError("");
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     const response = await api.createPost({ title, content }, user.token);
 
     if (response.status === 201) {
+      clearLocalState();
       await getPosts();
     }
 
@@ -28,10 +35,12 @@ function CreatePost({ user, getPosts }) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <br />
-        <input type="text" onChange={(event) => setTitle(event.target.value)} />
+        <input value={title} type="text" onChange={(event) => setTitle(event.target.value)} />
+        <br />
         <label htmlFor="content">Content</label>
         <br />
-        <textarea onChange={(event) => setContent(event.target.value)} />
+        <textarea value={content} onChange={(event) => setContent(event.target.value)} />
+        <br />
         <button type="submit">Save</button>
       </form>
     </div>
