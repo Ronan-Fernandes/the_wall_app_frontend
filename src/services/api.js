@@ -19,19 +19,6 @@ const login = async (email, password) => {
   }
 };
 
-const getPosts = async () => {
-  try {
-    const { data, status } = await api.get("/post");
-
-    return { data, status };
-  } catch (error) {
-    return {
-      data: error.response.data,
-      status: error.response.status
-    };
-  }
-};
-
 const createUser = async (userData) => {
   try {
     const { data, status } = await api.post("/user/register", { ...userData });
@@ -45,8 +32,63 @@ const createUser = async (userData) => {
   }
 };
 
+const getPosts = async () => {
+  try {
+    const { data, status } = await api.get("/post");
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
+const createPost = async (postData, token) => {
+  try {
+    const { data, status } = await api.post("/post", { ...postData }, { headers: { "Authorization": token } });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
+const editPost = async (postData, token, id) => {
+  try {
+    const { data, status } = await api.put(`/post/${id}`, { ...postData }, { headers: { "Authorization": token } });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
+const deletePost = async (id, token) => {
+  try {
+    const { data, status } = await api.delete(`/post/${id}`, { headers: { "Authorization": token } });
+
+    return { data, status };
+  } catch (error) {
+    return {
+      data: error.response.data,
+      status: error.response.status
+    };
+  }
+};
+
 export default {
-  getPosts,
   login,
-  createUser
+  createUser,
+  getPosts,
+  createPost,
+  editPost,
+  deletePost
 };
