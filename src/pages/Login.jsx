@@ -62,7 +62,11 @@ function Login() {
   return (
     <div className="my-container">
       <div className="shadow-lg p-3 mb-5 bg-body rounded col-sm-4">
-        <h1>The Wall</h1>
+        <div className="my-center">
+          <img src="The_Wall.jpg" alt="The Wall" width="50%" />
+        </div>
+        <br />
+        <h1 className="my-center">The Wall</h1>
           {isLoading ? <Loading /> : error}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -95,7 +99,7 @@ function Login() {
               type="button"
               onClick={() => redirect("/wall", { ...userInfo })}
             >
-              Enter as a guest
+              Guest
             </button>
             <button className="btn btn-dark" type="button" onClick={() => redirect("/register")}>
               Register
