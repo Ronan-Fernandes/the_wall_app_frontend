@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../services/api";
+import "../App.css";
+import Loading from "../components/Loading";
 
 function Register() {
   const [name, setName] = useState("");
@@ -27,12 +29,13 @@ function Register() {
     event.preventDefault();
     setLoading(true);
     const response = await api.createUser({ name, email, password, confirm_password });
-    setLoading(false);
-
+    
     if (response.status === 201) {
-     return redirect("/");
+      setLoading(false);
+      return redirect("/");
     }
-
+    
+    setLoading(false);
     return setError(response.data.error.replace("[ref:password]", "equal to password."));
   }
 
@@ -41,49 +44,64 @@ function Register() {
   }, [name, email, password, confirm_password]);
 
   return (
-    <div>
-      <h1>Register Page</h1>
-      {loading ? <div>Loading ...</div> : error}
-      <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name</label>
-        <br />
-        <input
-          id="name"
-          onChange={(event) => setName(event.target.value)}
-          placeholder="Name"
-        />
-        <br />
-        <label htmlFor="email">Email</label>
-        <br />
-        <input
-          id="email"
-          onChange={(event) => setEmail(event.target.value)}
-          type="email"
-          placeholder="Email"
-        />
-        <br />
-        <label htmlFor="password">Password</label>
-        <br />
-        <input
-          id="password"
-          onChange={(event) => setPassword(event.target.value)}
-          type="password"
-          placeholder="Password"
-        />
-        <br />
-        <label htmlFor="confirm_password">Confirm password</label>
-        <br />
-        <input
-          id="confirm_password"
-          onChange={(event) => setConfirm_password(event.target.value)}
-          type="password"
-          placeholder="confirm_password"
-        />
-        <br />
-        <button disabled={disableButton} type="submit">
-          Register
-        </button>
-      </form>
+    <div className="my-container">
+      <div className="shadow-lg p-3 mb-5 bg-body rounded col-sm-4">
+        <h1>Register</h1>
+        {loading ? <Loading /> : error}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="name">Name</label>
+            <input
+              id="name"
+              className="form-control"
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Name"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label" htmlFor="email">Email</label>
+            <input
+              id="email"
+              className="form-control"
+              onChange={(event) => setEmail(event.target.value)}
+              type="email"
+              placeholder="Email"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label" htmlFor="password">Password</label>
+            <input
+              id="password"
+              className="form-control"
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+              placeholder="Password"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label" htmlFor="confirm_password">Confirm password</label>
+            <input
+              id="confirm_password"
+              className="form-control"
+              onChange={(event) => setConfirm_password(event.target.value)}
+              type="password"
+              placeholder="confirm_password"
+            />
+          </div>
+
+          <div className="d-flex justify-content-between">
+            <button className="btn btn-dark" type="button" onClick={() => redirect("/")}>
+              cancel
+            </button>
+            <button className="btn btn-dark" disabled={disableButton} type="submit">
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

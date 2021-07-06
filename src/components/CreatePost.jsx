@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import api from "../services/api";
+import Loading from "./Loading";
 
 function CreatePost({ user, getPosts }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   function clearLocalState() {
@@ -14,34 +16,40 @@ function CreatePost({ user, getPosts }) {
   }
 
   async function handleSubmit(event) {
+    setIsLoading(true);
     event.preventDefault();
     const response = await api.createPost({ title, content }, user.token);
 
     if (response.status === 201) {
       clearLocalState();
       await getPosts();
+      return setIsLoading(false);
     }
 
     if (response.status === 401) {
-      return setError(response.data.message);
+      setError(response.data.message);
+      return setIsLoading(false);
     }
 
-    return setError(response.data.error);
+    setError(response.data.error);
+    return setIsLoading(false);
   }
 
   return (
     <div>
-      <div>{error}</div>
+      <div>{isLoading ? <Loading /> : error}</div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <br />
-        <input value={title} type="text" onChange={(event) => setTitle(event.target.value)} />
-        <br />
-        <label htmlFor="content">Content</label>
-        <br />
-        <textarea value={content} onChange={(event) => setContent(event.target.value)} />
-        <br />
-        <button type="submit">Save</button>
+        <div className="mb-3">
+          <label htmlFor="title" className="form-label">Title</label>
+          <input className="form-control" value={title} type="text" onChange={(event) => setTitle(event.target.value)} />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="content" className="form-label">Content</label>
+          <textarea className="form-control" value={content} onChange={(event) => setContent(event.target.value)} />
+        </div>
+        <div className="d-flex justify-content-end">
+          <button className="bi bi-check-lg btn" type="submit" />
+        </div>
       </form>
     </div>
   );
